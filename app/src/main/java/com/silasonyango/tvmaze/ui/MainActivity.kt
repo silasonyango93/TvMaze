@@ -13,8 +13,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         AndroidInjection.inject(this)
-//        val mainNavHostFragment =
-//            supportFragmentManager.findFragmentById(R.id.root_nav_host_fragment) as? NavHostFragment
-//        mainNavController = mainNavHostFragment?.navController
+        val mainNavHostFragment =
+            supportFragmentManager.findFragmentById(R.id.root_nav_host_fragment) as? NavHostFragment
+        mainNavController = mainNavHostFragment?.navController
     }
 }

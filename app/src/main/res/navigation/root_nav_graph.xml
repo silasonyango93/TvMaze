@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/dashBoardFragment"
     android:id="@+id/root_nav_graph">
+
+    <fragment
+        android:id="@+id/dashBoardFragment"
+        android:name="com.silasonyango.dashboard.ui.destinations.fragments.DashboardFragment"
+        android:label="fragment_landing_page"
+        tools:layout="@layout/fragment_dashboard">
+    </fragment>
 
 </navigation>
