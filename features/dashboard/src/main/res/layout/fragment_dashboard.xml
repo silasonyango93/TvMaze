@@ -1,49 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:weightSum="1"
-    tools:context=".ui.destinations.fragments.DashboardFragment">
+    android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".6">
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/bannerViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-
-        <RadioGroup
-            android:id="@+id/radioGroup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|bottom"
-            android:orientation="horizontal" />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".4"
+        android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center"
-        android:background="@drawable/black_red_gradient">
+        android:weightSum="1"
+        android:visibility="gone"
+        android:id="@+id/mainContent"
+        tools:context=".ui.destinations.fragments.DashboardFragment">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/showsRecyclerview"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_horizontal"
-            android:scrollbars="vertical" />
+            android:layout_height="0dp"
+            android:layout_weight=".6">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/bannerViewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="none" />
+
+            <RadioGroup
+                android:id="@+id/radioGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|bottom"
+                android:orientation="horizontal" />
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight=".4"
+            android:background="@drawable/black_red_gradient"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/showsRecyclerview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:scrollbars="vertical" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
-
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="center"
+        android:theme="@style/progressBarBlack"
+        android:translationZ="10dp"/>
+</FrameLayout>

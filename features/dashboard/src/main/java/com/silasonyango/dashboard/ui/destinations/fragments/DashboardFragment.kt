@@ -15,6 +15,7 @@ import android.widget.LinearLayout
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
@@ -94,7 +95,10 @@ class DashboardFragment : Fragment(), ShowsRecyclerviewAdapter.ShowsRecyclerview
         dashboardViewModel.showsResponse.observe(viewLifecycleOwner) {
             when (it?.status) {
                 Status.SUCCESS -> {
+
                     binding.apply {
+                        progressBar.isVisible = false
+                        mainContent.isVisible = true
                         val bannerRadioGroup = RadioGroup(requireContext())
                         bannerRadioGroup.setOrientation(LinearLayout.HORIZONTAL);
                         it.data?.let { data ->
@@ -164,10 +168,14 @@ class DashboardFragment : Fragment(), ShowsRecyclerviewAdapter.ShowsRecyclerview
                     }
                 }
                 Status.LOADING -> {
-                    System.out.println()
+                    binding.apply {
+                        progressBar.isVisible = true
+                    }
                 }
                 Status.ERROR -> {
-                    System.out.println()
+                    binding.apply {
+                        progressBar.isVisible = false
+                    }
                 }
             }
         }
