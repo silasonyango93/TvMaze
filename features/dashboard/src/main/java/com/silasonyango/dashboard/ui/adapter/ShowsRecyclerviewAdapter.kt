@@ -40,8 +40,8 @@ class ShowsRecyclerviewAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val currentShow = showsList.get(position)
         val imageLoader = CustomVolleyRequest.getInstance(context).getImageLoader()
-        imageLoader.get(currentShow.image?.original, ImageLoader.getImageListener(viewHolder.networkImageView,android.R.drawable.ic_dialog_alert, android.R.drawable.ic_dialog_alert))
-        viewHolder.networkImageView.setImageUrl(currentShow.image?.original,imageLoader)
+        imageLoader.get(currentShow.image?.medium, ImageLoader.getImageListener(viewHolder.networkImageView,android.R.drawable.ic_dialog_alert, android.R.drawable.ic_dialog_alert))
+        viewHolder.networkImageView.setImageUrl(currentShow.image?.medium,imageLoader)
         viewHolder.itemView.setOnClickListener {
             showsRecyclerviewAdapterCallback.onItemClicked(currentShow)
         }
