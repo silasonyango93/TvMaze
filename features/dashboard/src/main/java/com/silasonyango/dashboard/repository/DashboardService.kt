@@ -1,18 +1,21 @@
-package com.silasonyango.tvmaze
+package com.silasonyango.dashboard.repository
 
+import android.telecom.Call
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.silasonyango.common.Resource
 import com.silasonyango.tvmaze.models.ShowResponseModel
 import kotlinx.coroutines.suspendCancellableCoroutine
 import okhttp3.*
 import java.io.IOException
+import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class TvMazeServiceClientImpl(
+class DashboardService  @Inject constructor(
     private val baseUrl: String, private val httpClient: OkHttpClient, private val gson: Gson,
-): TvMazeServiceClient {
+) {
     private val basePath = "/shows"
-    override suspend fun fetchShowsByPage(page: Int): Resource<ShowResponseModel?> =
+    suspend fun fetchShowsByPage(page: Int): Resource<List<ShowResponseModel>?> =
         suspendCancellableCoroutine { continuation ->
             val queryUrl = HttpUrl.get("$baseUrl$basePath")
                 .newBuilder()
@@ -25,29 +28,33 @@ class TvMazeServiceClientImpl(
                 .build()
 
             val responseCallback = object : Callback {
-                override fun onFailure(call: Call, e: IOException) {
+                override fun onFailure(call: okhttp3.Call, e: IOException) {
                     continuation.resume(
                         Resource.error(
-                            "An error occurred while fetching eSlip details",
+                            "An error occurred while fetching shows",
                             null
                         )
                     )
                 }
 
-                override fun onResponse(call: Call, resp: Response) {
+                override fun onResponse(call: okhttp3.Call, resp: Response) {
                     when {
                         resp.isSuccessful -> {
-                            val responseData =
-                                gson.fromJson(resp.body()?.string(), ShowResponseModel::class.java)
-                            continuation.resume(Resource.success(responseData))
-                        }
-                        resp.code() == 422 -> {
-                            continuation.resume(Resource.success(null))
+                            val responseType = TypeToken.getParameterized(
+                                List::class.java,
+                                ShowResponseModel::class.java
+                            ).type
+
+                            val showsList = gson.fromJson<List<ShowResponseModel>>(
+                                resp.body()?.string(),
+                                responseType
+                            )
+                            continuation.resume(Resource.success(showsList))
                         }
                         else -> {
                             continuation.resume(
                                 Resource.error(
-                                    "An error occurred while fetching eSlip details",
+                                    "An error occurred while fetching shows",
                                     null
                                 )
                             )

@@ -31,6 +31,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":clients:tvmaze"))
+    implementation(project(":base:common"))
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.6.0'
@@ -46,4 +48,15 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.0'
     kapt 'com.google.dagger:dagger-compiler:2.42'
     kapt 'com.google.dagger:dagger-android-processor:2.37'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2'
+
+    implementation 'com.squareup.okhttp3:okhttp:3.12.12'
+    implementation 'com.squareup.okhttp3:mockwebserver:3.12.12'
+    implementation 'com.google.code.gson:gson:2.8.5'
+
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
 }

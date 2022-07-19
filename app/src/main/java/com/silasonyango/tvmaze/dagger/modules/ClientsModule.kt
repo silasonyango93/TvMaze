@@ -1,13 +1,11 @@
 package com.silasonyango.tvmaze.dagger.modules
 
-import android.app.Application
 import com.google.gson.Gson
-import com.silasonyango.tvmaze.TvMazeServiceClient
-import com.silasonyango.tvmaze.TvMazeServiceClientImpl
+import com.google.gson.GsonBuilder
+import com.silasonyango.tvmaze.TvMazeRepository
+import com.silasonyango.tvmaze.TvMazeService
 import dagger.Module
 import dagger.Provides
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,12 +15,18 @@ class ClientsModule {
 
     @Provides
     @Inject
-    fun provideIntegrationServiceClient(
+    fun provideTvMazeService(
         httpClient: OkHttpClient,
         gson: Gson,
-    ): TvMazeServiceClient {
+    ): TvMazeService {
         val url = "https://api.tvmaze.com"
-        return TvMazeServiceClientImpl(url, httpClient, gson)
+        return TvMazeService(url, httpClient, gson)
+    }
+
+    @Provides
+    @Inject
+    fun provideTvMazeRepository(tvMazeService: TvMazeService): TvMazeRepository {
+        return TvMazeRepository(tvMazeService)
     }
 
     @Provides
@@ -34,5 +38,16 @@ class ClientsModule {
             .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
             .build()
+    }
+
+    @Provides
+    fun provideGsonParser(): Gson {
+        return GsonBuilder().create()
+    }
+
+    @Provides
+    @Inject
+    fun provideBaseUrl(): String {
+        return "https://api.tvmaze.com"
     }
 }

@@ -1,6 +1,9 @@
 package com.silasonyango.dashboard.viewmodel
 
-class DashboardViewModelProvider {
+import com.silasonyango.tvmaze.TvMazeRepository
+import javax.inject.Inject
+
+class DashboardViewModelProvider @Inject constructor(private val tvMazeRepository: TvMazeRepository) {
     companion object {
         var dashBoardViewModel: DashboardViewModel? = null
     }
@@ -12,7 +15,7 @@ class DashboardViewModelProvider {
             existing
         } else {
             val new =
-                DashboardViewModel()
+                DashboardViewModel(tvMazeRepository)
             dashBoardViewModel = new
             new
         }
