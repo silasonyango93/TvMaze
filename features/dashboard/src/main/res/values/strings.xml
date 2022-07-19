@@ -1,7 +1,9 @@
 <resources>
     <string name="place_holder">Place Holder</string>
+    <string name="title_label">Title:</string>
     <string name="genre_label">Genre:</string>
     <string name="description_label">Description:</string>
+    <string name="title_not_available_label">Title not available</string>
     <string name="genre_not_available_label">Genre not available</string>
     <string name="summary_not_available_label">No summary available</string>
     <string name="loading_text">Loading…</string>

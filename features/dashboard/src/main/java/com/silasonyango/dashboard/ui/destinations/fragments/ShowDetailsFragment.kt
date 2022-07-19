@@ -34,6 +34,7 @@ class ShowDetailsFragment : DialogFragment() {
         binding = FragmentShowDetailsBinding.inflate(inflater, container, false)
         val rootView = binding.rootView
         binding.apply {
+            tvTitle.text = selectedShow?.name ?: getString(R.string.title_not_available_label)
             tvGenre.text = customConcatGenre(selectedShow?.genres)
                 ?: getString(R.string.genre_not_available_label)
             tvDescription.text =
