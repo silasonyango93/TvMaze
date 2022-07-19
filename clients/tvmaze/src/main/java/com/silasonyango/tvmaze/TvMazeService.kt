@@ -14,7 +14,7 @@ class TvMazeService  @Inject constructor(
     private val baseUrl: String, private val httpClient: OkHttpClient, private val gson: Gson,
 ) {
     private val basePath = "/shows"
-    suspend fun fetchShowsByPage(page: Int): Resource<List<ShowResponseModel>?> =
+    suspend fun fetchShowsByPage(page: Int): Resource<List<ShowResponseModel>?>? =
         suspendCancellableCoroutine { continuation ->
             val queryUrl = HttpUrl.get("$baseUrl$basePath")
                 .newBuilder()
@@ -44,7 +44,7 @@ class TvMazeService  @Inject constructor(
                                 ShowResponseModel::class.java
                             ).type
 
-                            val showsList = Gson().fromJson<List<ShowResponseModel>>(
+                            val showsList = gson.fromJson<List<ShowResponseModel>>(
                                 resp.body()?.string(),
                                 responseType
                             )

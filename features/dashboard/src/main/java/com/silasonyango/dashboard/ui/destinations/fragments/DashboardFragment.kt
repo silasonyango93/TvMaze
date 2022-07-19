@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.silasonyango.common.Status
 import com.silasonyango.dashboard.R
 import com.silasonyango.dashboard.dagger.DashboardComponent
 import com.silasonyango.dashboard.dagger.provider.DashboardComponentProvider
@@ -48,7 +49,25 @@ class DashboardFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        registerObservers()
         dashboardViewModel.fetchShowsByPage(0)
+    }
+
+
+    private fun registerObservers() {
+        dashboardViewModel.showsResponse.observe(viewLifecycleOwner) {
+            when (it?.status) {
+                Status.SUCCESS -> {
+                    System.out.println()
+                }
+                Status.LOADING -> {
+                    System.out.println()
+                }
+                Status.ERROR -> {
+                    System.out.println()
+                }
+            }
+        }
     }
 
     companion object {
