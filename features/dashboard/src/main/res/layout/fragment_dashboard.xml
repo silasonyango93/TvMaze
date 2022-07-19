@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootView"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:weightSum="1"
+    android:orientation="vertical"
     tools:context=".ui.destinations.fragments.DashboardFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/bannerViewPager"
+        android:paddingTop="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="0dp"
+        android:layout_weight=".6"
+        android:scrollbars="none"/>
 
-</FrameLayout>
+
+</LinearLayout>

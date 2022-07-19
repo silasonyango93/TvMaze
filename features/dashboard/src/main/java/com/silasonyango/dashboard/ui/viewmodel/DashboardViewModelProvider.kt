@@ -1,4 +1,4 @@
-package com.silasonyango.dashboard.viewmodel
+package com.silasonyango.dashboard.ui.viewmodel
 
 import com.silasonyango.tvmaze.TvMazeRepository
 import javax.inject.Inject

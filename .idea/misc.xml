@@ -4,6 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.19375" />
+        <entry key="features/dashboard/src/main/res/layout/banner_template.xml" value="0.3880208333333333" />
+        <entry key="features/dashboard/src/main/res/layout/fragment_dashboard.xml" value="0.33559782608695654" />
+        <entry key="features/dashboard/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1925" />
       </map>
     </option>
   </component>
