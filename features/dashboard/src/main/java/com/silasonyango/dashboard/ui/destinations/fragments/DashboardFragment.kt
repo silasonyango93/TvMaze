@@ -26,6 +26,7 @@ import com.silasonyango.dashboard.ui.adapter.BannerViewPagerAdapter
 import com.silasonyango.dashboard.ui.adapter.ShowsRecyclerviewAdapter
 import com.silasonyango.dashboard.ui.viewmodel.DashboardViewModel
 import com.silasonyango.dashboard.ui.viewmodel.DashboardViewModelProvider
+import com.silasonyango.tvmaze.models.ShowResponseModel
 import javax.inject.Inject
 
 
@@ -175,12 +176,12 @@ class DashboardFragment : Fragment(), ShowsRecyclerviewAdapter.ShowsRecyclerview
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
-        handler.postDelayed(runnable, delay.toLong());
+        handler.postDelayed(runnable, delay.toLong())
     }
 
     override fun onPause() {
         super.onPause()
-        handler.postDelayed(runnable, delay.toLong());
+        handler.postDelayed(runnable, delay.toLong())
     }
 
     override fun onStop() {
@@ -191,11 +192,16 @@ class DashboardFragment : Fragment(), ShowsRecyclerviewAdapter.ShowsRecyclerview
     companion object {
 
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance() =
             DashboardFragment().apply {
                 arguments = Bundle().apply {
 
                 }
             }
+    }
+
+    override fun onItemClicked(selectedShow: ShowResponseModel) {
+        val dialog = ShowDetailsFragment.newInstance(selectedShow)
+        dialog.show(childFragmentManager, ShowDetailsFragment.TAG)
     }
 }
