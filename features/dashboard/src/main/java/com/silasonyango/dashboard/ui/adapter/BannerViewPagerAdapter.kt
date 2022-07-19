@@ -45,42 +45,9 @@ class BannerViewPagerAdapter(
         val currentShow = showsList.get(position)
         val ivBannerImage: NetworkImageView = view.findViewById<View>(R.id.banner_image) as NetworkImageView
         val imageLoader = CustomVolleyRequest.getInstance(context).getImageLoader()
-        imageLoader.get(currentShow.image.original, ImageLoader.getImageListener(ivBannerImage,android.R.drawable.ic_dialog_alert, android.R.drawable.ic_dialog_alert));
+        imageLoader.get(currentShow.image.original, ImageLoader.getImageListener(ivBannerImage,android.R.drawable.ic_dialog_alert, android.R.drawable.ic_dialog_alert))
 
         ivBannerImage.setImageUrl(currentShow.image.original,imageLoader)
-//        val icConcealIcon = view.findViewById(R.id.conceal_icon) as TextView
-//        val tvAccountAmount = view.findViewById(R.id.account_amount) as TextView
-//        val tvAccountType = view.findViewById(R.id.account_type) as TextView
-//        val tvAccountName = view.findViewById(R.id.account_name) as TextView
-//        val tvAccountNumber = view.findViewById(R.id.account_number) as TextView
-//        val tvCurrency = view.findViewById(R.id.tv_currency) as TextView
-//        val llConcealIconWrapper = view.findViewById(R.id.conceal_icon_wrapper) as LinearLayout
-//        val rlDebitCardWrapper = view.findViewById(R.id.debit_card_wrapper) as RelativeLayout
-//        icConcealIcon.setTypeface(fontAwesome)
-//        val debitCardObject: DebitCardsObject = debitCardsObjectList!![position]
-//
-//        llConcealIconWrapper.setOnClickListener(object : OnClickListener() {
-//            fun onClick(view: View?) {
-//                val strWhichEyeDisplayed = icConcealIcon.text.toString()
-//                if (strWhichEyeDisplayed == context.getResources().getString(R.string.open_eye)) {
-//                    icConcealIcon.setText(context.getResources().getString(R.string.closed_eye))
-//                    tvAccountAmount.setText(String.valueOf(debitCardObject.getTotalBalance()))
-//                } else {
-//                    icConcealIcon.setText(context.getResources().getString(R.string.open_eye))
-//                    tvAccountAmount.text = "**************"
-//                }
-//            }
-//        })
-//        tvCurrency.setText(debitCardObject.getCurrency())
-//        rlDebitCardWrapper.background =
-//            context.getResources().getDrawable(debitCardObject.getBackgroundResourceId())
-//        tvAccountType.setText(debitCardObject.getAccountType())
-//        tvAccountName.setText(debitCardObject.getAccountName())
-//        tvAccountNumber.setText(
-//            if (debitCardObject.getAccountNumber() != null) GeneralUtilFunctions.formatAccountNumber(
-//                debitCardObject.getAccountNumber()
-//            ) else debitCardObject.getAccountNumber()
-//        )
         container.addView(view)
         return view
     }

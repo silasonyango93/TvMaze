@@ -1,38 +1,51 @@
 package com.silasonyango.dashboard.ui.destinations.fragments
 
+import android.R
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.silasonyango.common.Status
 import com.silasonyango.dashboard.dagger.DashboardComponent
 import com.silasonyango.dashboard.dagger.provider.DashboardComponentProvider
 import com.silasonyango.dashboard.databinding.FragmentDashboardBinding
 import com.silasonyango.dashboard.ui.adapter.BannerViewPagerAdapter
+import com.silasonyango.dashboard.ui.adapter.ShowsRecyclerviewAdapter
 import com.silasonyango.dashboard.ui.viewmodel.DashboardViewModel
 import com.silasonyango.dashboard.ui.viewmodel.DashboardViewModelProvider
 import javax.inject.Inject
 
 
-class DashboardFragment : Fragment() {
+class DashboardFragment : Fragment(), ShowsRecyclerviewAdapter.ShowsRecyclerviewAdapterCallback {
+    private var gridLayoutManager: GridLayoutManager? = null
     private val delay = 4000
     private var page = 0
-//    var runnable: Runnable = object : Runnable {
-//        override fun run() {
-//            if (crossSellViewPagerAdapter.getCount() === page) {
-//                page = 0
-//            } else {
-//                page++
-//            }
-//            crossSellViewPager.setCurrentItem(page, true)
-//            handler.postDelayed(this, delay)
-//        }
-//    }
+    var bannerViewPagerAdapter: BannerViewPagerAdapter? = null
+    val handler: Handler = Handler(Looper.getMainLooper())
+    var runnable: Runnable = object : Runnable {
+        override fun run() {
+            if (bannerViewPagerAdapter?.getCount() == page) {
+                page = 0
+            } else {
+                page++
+            }
+            binding.bannerViewPager.setCurrentItem(page, true)
+            handler.postDelayed(this, delay.toLong())
+        }
+    }
 
     private lateinit var binding: FragmentDashboardBinding
 
@@ -81,6 +94,52 @@ class DashboardFragment : Fragment() {
             when (it?.status) {
                 Status.SUCCESS -> {
                     binding.apply {
+                        val bannerRadioGroup = RadioGroup(requireContext())
+                        bannerRadioGroup.setOrientation(LinearLayout.HORIZONTAL);
+                        it.data?.let { data ->
+                            if (!data.isEmpty()) {
+                                for (i in 0..data.size) {
+                                    val radioButton = RadioButton(requireContext())
+                                    radioButton.id = i
+                                    radioButton.setScaleX(0.5.toFloat())
+                                    radioButton.setScaleY(0.5.toFloat())
+                                    radioButton.setEnabled(false)
+
+                                    if (i == 0) {
+                                        radioButton.setChecked(true);
+                                    }
+
+                                    val colorStateList = ColorStateList(
+                                        arrayOf(
+                                            intArrayOf(-R.attr.state_enabled), intArrayOf(
+                                                R.attr.state_enabled
+                                            )
+                                        ), intArrayOf(
+                                            Color.WHITE, Color.WHITE
+                                        )
+                                    )
+
+
+                                    radioButton.setButtonTintList(colorStateList)
+                                    radioButton.invalidate()
+
+                                    bannerRadioGroup.addView(radioButton)
+                                }
+                                (binding.radioGroup as ViewGroup).addView(
+                                    bannerRadioGroup
+                                )
+
+                                val showsRecyclerviewAdapter = ShowsRecyclerviewAdapter(requireContext(), data, this@DashboardFragment)
+                                gridLayoutManager = GridLayoutManager(requireContext(),3)
+                                showsRecyclerview.apply {
+                                    setHasFixedSize(true)
+                                    layoutManager = gridLayoutManager
+                                    adapter = showsRecyclerviewAdapter
+                                }
+                            }
+                        }
+
+
                         bannerViewPager.addOnPageChangeListener(object : OnPageChangeListener {
                             override fun onPageScrolled(
                                 position: Int,
@@ -92,12 +151,14 @@ class DashboardFragment : Fragment() {
                             @SuppressLint("ResourceType")
                             override fun onPageSelected(position: Int) {
                                 page = position
+                                bannerRadioGroup.check(position + 1)
                             }
 
                             override fun onPageScrollStateChanged(state: Int) {}
                         })
 
-                        val bannerViewPagerAdapter = BannerViewPagerAdapter(requireContext(),it.data?.subList(0,10)!!)
+                        bannerViewPagerAdapter =
+                            BannerViewPagerAdapter(requireContext(), it.data?.subList(0, 10)!!)
                         bannerViewPager.adapter = bannerViewPagerAdapter
                     }
                 }
@@ -114,6 +175,12 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as AppCompatActivity?)!!.supportActionBar!!.hide()
+        handler.postDelayed(runnable, delay.toLong());
+    }
+
+    override fun onPause() {
+        super.onPause()
+        handler.postDelayed(runnable, delay.toLong());
     }
 
     override fun onStop() {
